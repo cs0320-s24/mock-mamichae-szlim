@@ -18,6 +18,9 @@ export function REPLInput(props: REPLInputProps) {
   const [commandString, setCommandString] = useState<string>("");
   // TODO WITH TA : add a count state
   const [count, setcount] = useState<number>(0);
+
+  // mutable use let -> will this be allowed?
+  let command = '';
   // TODO WITH TA: build a handleSubmit function called in button onClick
   // TODO: Once it increments, try to make it push commands... Note that you can use the `...` spread syntax to copy what was there before
   // add to it with new commands.
@@ -25,19 +28,26 @@ export function REPLInput(props: REPLInputProps) {
    * We suggest breaking down this component into smaller components, think about the individual pieces
    * of the REPL and how they connect to each other...
    */
+
+  
   //function modeUpdate(){
   const toggleMode = () => {
     props.setMode((prevMode) => (prevMode === 'brief' ? 'verbose' : 'brief'));
   }
   //}
-
+  function extractCommands(){
+    command = commandString.split(' ')[0];
+    if (command.toLowerCase() === 'mode') {
+      toggleMode();
+    }
+  }
   
 
   function handleSubmit(commandString: string) {
     setcount(count + 1);
     props.setHistory([...props.history, commandString]);
+    extractCommands()
     setCommandString("")
-    toggleMode();
   }
 
   return (

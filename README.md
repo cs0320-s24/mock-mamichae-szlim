@@ -12,3 +12,7 @@
 
 # Collaboration
 *(state all of your sources of collaboration past your project partner. Please refer to the course's collaboration policy for any further questions.)*
+
+
+for splitting / parsing command input 
+https://www.tutorialspoint.com/typescript/typescript_string_split.htm
