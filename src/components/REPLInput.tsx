@@ -2,6 +2,7 @@ import "../styles/main.css";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { SourceTextModule } from "vm";
+import { REPLFunction } from "./REPLFunction";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -20,6 +21,7 @@ export function REPLInput(props: REPLInputProps) {
   const [count, setcount] = useState<number>(0);
 
   // mutable use let -> will this be allowed?
+  const commandMap = new Map<string, REPLFunction>();
   let command = '';
   // TODO WITH TA: build a handleSubmit function called in button onClick
   // TODO: Once it increments, try to make it push commands... Note that you can use the `...` spread syntax to copy what was there before
@@ -40,6 +42,9 @@ export function REPLInput(props: REPLInputProps) {
     if (command.toLowerCase() === 'mode') {
       toggleMode();
     }
+
+    commandMap.set('mode', toggleMode)
+
   }
   
 
