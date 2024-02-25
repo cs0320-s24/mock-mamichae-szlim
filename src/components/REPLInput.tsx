@@ -1,11 +1,14 @@
 import "../styles/main.css";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ControlledInput } from "./ControlledInput";
+import { SourceTextModule } from "vm";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   history: string[];
   setHistory: Dispatch<SetStateAction<string[]>>;
+  mode: string;
+  setMode: Dispatch<SetStateAction<string>>;
 }
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
 // REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
@@ -22,10 +25,19 @@ export function REPLInput(props: REPLInputProps) {
    * We suggest breaking down this component into smaller components, think about the individual pieces
    * of the REPL and how they connect to each other...
    */
+  //function modeUpdate(){
+  const toggleMode = () => {
+    props.setMode((prevMode) => (prevMode === 'brief' ? 'verbose' : 'brief'));
+  }
+  //}
+
+  
+
   function handleSubmit(commandString: string) {
     setcount(count + 1);
     props.setHistory([...props.history, commandString]);
     setCommandString("")
+    toggleMode();
   }
 
   return (
@@ -44,6 +56,7 @@ export function REPLInput(props: REPLInputProps) {
       </fieldset>
       {/* TODO WITH TA: Build a handleSubmit function that increments count and displays the text in the button */}
       {/* TODO: Currently this button just counts up, can we make it push the contents of the input box to the history?*/}
+      <h1>{props.mode === 'brief' ? 'Brief Mode' : 'Verbose Mode'}</h1>
       <button aria-label ="Submit" onClick={() => handleSubmit(commandString)}>
         Submitted {count} times!
       </button>
