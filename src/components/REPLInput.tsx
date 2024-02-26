@@ -4,6 +4,7 @@ import { ControlledInput } from "./ControlledInput";
 import { SourceTextModule } from "vm";
 import { REPLFunction } from "./REPLFunction";
 import { HistoryLog } from "./HistoryLog";
+//import { LoadFunction } from "./Load";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -110,7 +111,8 @@ export function REPLInput(props: REPLInputProps) {
     //     { type: "output", content: output },
     //   ]);
     // }
-    if (output) {
+    console.log("output "+output)
+    if (output) { //why does it never enter this if statement
       props.setHistory((prevHistory) => [
         ...prevHistory,
         { type: "output", content: output },
@@ -119,7 +121,7 @@ export function REPLInput(props: REPLInputProps) {
       // If output is null (indicating an error), add an error message to the history
       props.setHistory((prevHistory) => [
         ...prevHistory,
-        { type: "output", content: "Error: Unable to execute the command" },
+        { type: "output", content: "Error: Unable to execute the command" }, //for some reason, it ALWAYYSSS is this
       ]);
     }
     
