@@ -1,4 +1,4 @@
 export interface REPLFunction { 
-    (args: Array<string>): String|String[][]
+    (args: string[]): string | string[] | string[][] | void;
    
 }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../styles/main.css';
 import { REPLHistory } from './REPLHistory';
 import { REPLInput } from './REPLInput';
-
+import { HistoryLog } from './HistoryLog'; 
 /* 
   You'll want to expand this component (and others) for the sprints! Remember 
   that you can pass "props" as function arguments. If you need to handle state 
@@ -15,10 +15,11 @@ import { REPLInput } from './REPLInput';
 export default function REPL() {
   // TODO: Add some kind of shared state that holds all the commands submitted.
 
-  const [history, setHistory] = useState<string[]>([]);
+  // const [history, setHistory] = useState<string[]>([]);
+  const [history, setHistory] = useState<HistoryLog[]>([]);
   const [mode, setMode] = useState<string>("brief");
 
-  
+
   return (
     <div className="repl">
       {/*This is where your REPLHistory might go... You also may choose to add it within your REPLInput 

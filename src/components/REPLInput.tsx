@@ -3,14 +3,18 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { SourceTextModule } from "vm";
 import { REPLFunction } from "./REPLFunction";
+import { HistoryLog } from "./HistoryLog";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
-  history: string[];
-  setHistory: Dispatch<SetStateAction<string[]>>;
+  // history: string[];
+  // setHistory: Dispatch<SetStateAction<string[]>>;
+  history: HistoryLog[]; 
+  setHistory: Dispatch<SetStateAction<HistoryLog[]>>; 
   mode: string;
   setMode: Dispatch<SetStateAction<string>>;
 }
+
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
 // REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
 export function REPLInput(props: REPLInputProps) {
@@ -22,7 +26,9 @@ export function REPLInput(props: REPLInputProps) {
 
   // mutable use let -> will this be allowed?
   const commandMap = new Map<string, REPLFunction>();
-  let command = '';
+
+  // let commandArr = [];
+  // let command = '';
   // TODO WITH TA: build a handleSubmit function called in button onClick
   // TODO: Once it increments, try to make it push commands... Note that you can use the `...` spread syntax to copy what was there before
   // add to it with new commands.
@@ -31,27 +37,62 @@ export function REPLInput(props: REPLInputProps) {
    * of the REPL and how they connect to each other...
    */
 
-  
-  //function modeUpdate(){
-  const toggleMode = () => {
+
+  // Function for toggling between 'brief' and 'verbose' modes
+  const toggleModeCommand: REPLFunction = () => {
     props.setMode((prevMode) => (prevMode === 'brief' ? 'verbose' : 'brief'));
+    //return props.mode === 'brief' ? ['verbose mode'] : ['brief mode'];
   }
-  //}
-  function extractCommands(){
-    command = commandString.split(' ')[0];
-    if (command.toLowerCase() === 'mode') {
-      toggleMode();
+
+  const loadFile = (filePath: string): string[][] => {
+    const datasets = new Map<string, string[][]>(); 
+    if (datasets.has(filePath)) {
+      // non-null assertion, cited in readme
+      // but do we know it's really null?
+      return datasets.get(filePath)!;
+    } else {
+      return [['error']];
     }
+  };
 
-    commandMap.set('mode', toggleMode)
+  const loadFileCommand: REPLFunction = (args) => {
+    const filePath = args[0]; 
+    const result = loadFile(filePath);
+    return result;
+  }
 
+  commandMap.set('mode', toggleModeCommand);
+  commandMap.set('load_file', loadFileCommand);
+
+  const extractCommands = () => {
+    const args = commandString.split(' ');
+    const command = args[0];
+    if (commandMap.has(command)) {
+      const commandFunction = commandMap.get(command)!;
+      // slice removes first element at zero, creates new array
+      // cited in readme
+      const result = commandFunction(args.slice(1)); 
+    } 
   }
   
 
   function handleSubmit(commandString: string) {
     setcount(count + 1);
-    props.setHistory([...props.history, commandString]);
-    extractCommands()
+    // props.setHistory([...props.history, commandString]);
+    // extractCommands()
+    props.setHistory(prevHistory => [
+      ...prevHistory,
+      { type: 'command', content: commandString }, 
+    ]);
+
+    const output = extractCommands();
+    
+    if (output != null) {
+      props.setHistory(prevHistory => [
+        ...prevHistory,
+        { type: 'output', content: output }, 
+      ]);
+    }
     setCommandString("")
   }
 

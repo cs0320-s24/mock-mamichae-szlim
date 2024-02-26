@@ -16,3 +16,9 @@
 
 for splitting / parsing command input 
 https://www.tutorialspoint.com/typescript/typescript_string_split.htm
+
+for asserting non-null
+https://www.geeksforgeeks.org/typescript-non-null-assertion-operator-postfix-type/#:~:text=TypeScript%20non%2Dnull%20assertion%20operator%20(!)%20is%20used%20to%20assert,time%20null%20and%20undefined%20checks.
+
+slicing array
+https://refine.dev/blog/javascript-slice/
