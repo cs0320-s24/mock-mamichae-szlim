@@ -66,23 +66,21 @@ export function REPLInput(props: REPLInputProps) {
     }
   };
 
-  //   const viewFile = (filePath: string): string[][] => {
-  //     const datasets = new Map<string, string[][]>();
-  //     if (datasets.has(filePath)) {
-  //         // non-null assertion, cited in readme
-  //         // but do we know it's really null?
-  //       return datasets.get(filePath)!;
-  //     } else {
-  //       return [["error"]];
-  //     }
-  //  };
+  const viewFile = (): string[][] => {
+      
+   };
+
+   const viewCommand: REPLFunction = (args) => {
+     return "hey"
+   };
 
   commandMap.set("mode", toggleModeCommand);
   commandMap.set("load_file", loadFileCommand);
+  commandMap.set("view", viewCommand);
 
   function extractCommands(commandString: string) {
     const args = commandString.split(" ");
-    const command = args[0];
+    const command = args[0].toLowerCase();
     if (commandMap.has(command)) {
       const commandFunction = commandMap.get(command)!;
       // slice removes first element at zero, creates new array
