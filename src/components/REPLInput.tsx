@@ -72,6 +72,9 @@ export function REPLInput(props: REPLInputProps) {
       // slice removes first element at zero, creates new array
       // cited in readme
       const result = commandFunction(args.slice(1)); 
+      if(!result){
+        return result;
+      }
     } 
   }
   
@@ -87,7 +90,7 @@ export function REPLInput(props: REPLInputProps) {
 
     const output = extractCommands();
     
-    if (output != null) {
+    if (output) {
       props.setHistory(prevHistory => [
         ...prevHistory,
         { type: 'output', content: output }, 

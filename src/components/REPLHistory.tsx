@@ -1,33 +1,43 @@
 import '../styles/main.css';
+import { HistoryLog } from './HistoryLog';
 
-interface HistoryItem {
-    command: string;
-    output: string;
-}
-
-interface REPLHistoryProps{
-    // TODO: Fill with some shared state tracking all the pushed commands
-    history: HistoryItem[];
+interface REPLHistoryProps {
+    history: HistoryLog[];
     mode: string;
 }
-export function REPLHistory(props : REPLHistoryProps) {
+
+export function REPLHistory(props: REPLHistoryProps) {
     return (
         <div className="repl-history">
-            {/* This is where command history will go */}
-            {/* TODO: To go through all the pushed commands... try the .map() function! */}
-            {/* {props.history.map((command, index) => (<p>{command}</p>))} */}
             {props.history.map((item, index) => (
                 <div key={index}>
-                    {props.mode === 'verbose' ? (
-                        <>
-                            <p>Command: {item.command}</p>
-                            <p>Output: {item.output}</p>
-                        </>
-                    ) : (
-                        <p>{item.output}</p>
-                    )}
+                    {renderHistory(item, index, props.mode)}
                 </div>
             ))}
         </div>
     );
+}
+
+function renderHistory(item: HistoryLog, index: number, mode: string) {
+    if (mode === 'verbose') {
+        if (item.type === 'command') {
+            return <p key={index}>Command: {item.content}</p>;
+        } else if (item.type === 'output') {
+            return (
+                <p key={index}>
+                    Output: {Array.isArray(item.content) ? item.content.join(', ') : item.content}
+                    {/* got array check from chat, do we need it? */}
+                </p>
+            );
+        }
+    } else {
+        if (item.type === 'output') {
+            return (
+                <p key={index}>
+                    {Array.isArray(item.content) ? item.content.join(', ') : item.content}
+                </p>
+            );
+        }
+    }
+    return null; 
 }
