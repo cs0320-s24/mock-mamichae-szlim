@@ -80,21 +80,6 @@ export function REPLInput(props: REPLInputProps) {
   commandMap.set("mode", toggleModeCommand);
   commandMap.set("load_file", loadFileCommand);
 
-  // const extractCommands = () => {
-  //   return "hey"
-  //   const args = commandString.split(" ");
-  //   const command = args[0];
-  //   if (commandMap.has(command)) {
-  //     const commandFunction = commandMap.get(command)!;
-  //     // slice removes first element at zero, creates new array
-  //     // cited in readme
-  //     const result = commandFunction(args.slice(1));
-  //     if (!result) {
-  //       return null;
-  //     }
-  //   }
-  // };
-
   function extractCommands(commandString: string) {
     const args = commandString.split(" ");
     const command = args[0];
@@ -123,16 +108,7 @@ export function REPLInput(props: REPLInputProps) {
 
     const output = extractCommands(commandString);
 
-    // if (output) {
-    //   props.setHistory((prevHistory) => [
-    //     ...prevHistory,
-    //     { type: "output", content: output },
-    //   ]);
-    // }
-    console.log("output " + output);
-
     if (output) {
-      //why does it never enter this if statement
       props.setHistory((prevHistory) => [
         ...prevHistory,
         { type: "output", content: output },
@@ -141,7 +117,7 @@ export function REPLInput(props: REPLInputProps) {
       // If output is null (indicating an error), add an error message to the history
       props.setHistory((prevHistory) => [
         ...prevHistory,
-        { type: "output", content: "Error: Unable to execute the command" }, //for some reason, it ALWAYYSSS is this
+        { type: "output", content: "Error: Unable to execute the command" }, 
       ]);
     }
 
@@ -162,8 +138,6 @@ export function REPLInput(props: REPLInputProps) {
           ariaLabel={"Command input"}
         />
       </fieldset>
-      {/* TODO WITH TA: Build a handleSubmit function that increments count and displays the text in the button */}
-      {/* TODO: Currently this button just counts up, can we make it push the contents of the input box to the history?*/}
       <p>
         You are in: {props.mode === "brief" ? "Brief Mode" : "Verbose Mode"}
       </p>
