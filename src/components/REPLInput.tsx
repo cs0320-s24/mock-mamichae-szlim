@@ -9,8 +9,8 @@ interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   // history: string[];
   // setHistory: Dispatch<SetStateAction<string[]>>;
-  history: HistoryLog[]; 
-  setHistory: Dispatch<SetStateAction<HistoryLog[]>>; 
+  history: HistoryLog[];
+  setHistory: Dispatch<SetStateAction<HistoryLog[]>>;
   mode: string;
   setMode: Dispatch<SetStateAction<string>>;
 }
@@ -37,66 +37,93 @@ export function REPLInput(props: REPLInputProps) {
    * of the REPL and how they connect to each other...
    */
 
-
   // Function for toggling between 'brief' and 'verbose' modes
   const toggleModeCommand: REPLFunction = () => {
-    props.setMode((prevMode) => (prevMode === 'brief' ? 'verbose' : 'brief'));
-    //return props.mode === 'brief' ? ['verbose mode'] : ['brief mode'];
-  }
+    props.setMode((prevMode) => (prevMode === "brief" ? "verbose" : "brief"));
+    return [["mode switched"]];
+  };
 
   const loadFile = (filePath: string): string[][] => {
-    const datasets = new Map<string, string[][]>(); 
+    const datasets = new Map<string, string[][]>();
     if (datasets.has(filePath)) {
       // non-null assertion, cited in readme
       // but do we know it's really null?
       return datasets.get(filePath)!;
     } else {
-      return [['error']];
+      return [["error"]];
     }
   };
 
   const loadFileCommand: REPLFunction = (args) => {
-    const filePath = args[0]; 
-    const result = loadFile(filePath);
-    return result;
-  }
+    if (args.length === 1) {
+      const filePath = args[0];
+      const result = loadFile(filePath);
+      return result;
+    } else {
+      return [["unsuccessful load"]];
+    }
+  };
 
-  commandMap.set('mode', toggleModeCommand);
-  commandMap.set('load_file', loadFileCommand);
+  //   const viewFile = (filePath: string): string[][] => {
+  //     const datasets = new Map<string, string[][]>();
+  //     if (datasets.has(filePath)) {
+  //         // non-null assertion, cited in readme
+  //         // but do we know it's really null?
+  //       return datasets.get(filePath)!;
+  //     } else {
+  //       return [["error"]];
+  //     }
+  //  };
+
+  commandMap.set("mode", toggleModeCommand);
+  commandMap.set("load_file", loadFileCommand);
 
   const extractCommands = () => {
-    const args = commandString.split(' ');
+    const args = commandString.split(" ");
     const command = args[0];
     if (commandMap.has(command)) {
       const commandFunction = commandMap.get(command)!;
       // slice removes first element at zero, creates new array
       // cited in readme
-      const result = commandFunction(args.slice(1)); 
-      if(!result){
+      const result = commandFunction(args.slice(1));
+      if (!result) {
         return result;
       }
-    } 
-  }
-  
+    }
+  };
 
   function handleSubmit(commandString: string) {
-    setcount(count + 1);
+    //setcount(count + 1);
     // props.setHistory([...props.history, commandString]);
     // extractCommands()
-    props.setHistory(prevHistory => [
+
+    props.setHistory((prevHistory) => [
       ...prevHistory,
-      { type: 'command', content: commandString }, 
+      { type: "command", content: commandString },
     ]);
 
     const output = extractCommands();
-    
+
+    // if (output) {
+    //   props.setHistory((prevHistory) => [
+    //     ...prevHistory,
+    //     { type: "output", content: output },
+    //   ]);
+    // }
     if (output) {
-      props.setHistory(prevHistory => [
+      props.setHistory((prevHistory) => [
         ...prevHistory,
-        { type: 'output', content: output }, 
+        { type: "output", content: output },
+      ]);
+    } else {
+      // If output is null (indicating an error), add an error message to the history
+      props.setHistory((prevHistory) => [
+        ...prevHistory,
+        { type: "output", content: "Error: Unable to execute the command" },
       ]);
     }
-    setCommandString("")
+    
+    setCommandString("");
   }
 
   return (
@@ -115,9 +142,11 @@ export function REPLInput(props: REPLInputProps) {
       </fieldset>
       {/* TODO WITH TA: Build a handleSubmit function that increments count and displays the text in the button */}
       {/* TODO: Currently this button just counts up, can we make it push the contents of the input box to the history?*/}
-      <h1>{props.mode === 'brief' ? 'Brief Mode' : 'Verbose Mode'}</h1>
-      <button aria-label ="Submit" onClick={() => handleSubmit(commandString)}>
-        Submitted {count} times!
+      <p>
+        You are in: {props.mode === "brief" ? "Brief Mode" : "Verbose Mode"}
+      </p>
+      <button aria-label="Submit" onClick={() => handleSubmit(commandString)}>
+        Submit
       </button>
     </div>
   );
