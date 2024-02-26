@@ -56,12 +56,11 @@ export function REPLInput(props: REPLInputProps) {
   };
 
   const loadFileCommand: REPLFunction = (args) => {
-    return "hey";
     if (args.length === 1) {
       const filePath = args[0];
       const result = loadFile(filePath);
       // return result;
-      return [["loaded successfully"]]
+      return [["loaded successfully"]];
     } else {
       return [["unsuccessful load"]];
     }
@@ -81,7 +80,22 @@ export function REPLInput(props: REPLInputProps) {
   commandMap.set("mode", toggleModeCommand);
   commandMap.set("load_file", loadFileCommand);
 
-  const extractCommands = () => {
+  // const extractCommands = () => {
+  //   return "hey"
+  //   const args = commandString.split(" ");
+  //   const command = args[0];
+  //   if (commandMap.has(command)) {
+  //     const commandFunction = commandMap.get(command)!;
+  //     // slice removes first element at zero, creates new array
+  //     // cited in readme
+  //     const result = commandFunction(args.slice(1));
+  //     if (!result) {
+  //       return null;
+  //     }
+  //   }
+  // };
+
+  function extractCommands(commandString: string) {
     const args = commandString.split(" ");
     const command = args[0];
     if (commandMap.has(command)) {
@@ -91,9 +105,11 @@ export function REPLInput(props: REPLInputProps) {
       const result = commandFunction(args.slice(1));
       if (!result) {
         return null;
+      }else{
+        return result
       }
     }
-  };
+  }
 
   function handleSubmit(commandString: string) {
     //setcount(count + 1);
@@ -105,7 +121,7 @@ export function REPLInput(props: REPLInputProps) {
       { type: "command", content: commandString },
     ]);
 
-    const output = extractCommands();
+    const output = extractCommands(commandString);
 
     // if (output) {
     //   props.setHistory((prevHistory) => [
@@ -113,8 +129,10 @@ export function REPLInput(props: REPLInputProps) {
     //     { type: "output", content: output },
     //   ]);
     // }
-    console.log("output "+output)
-    if (output) { //why does it never enter this if statement
+    console.log("output " + output);
+
+    if (output) {
+      //why does it never enter this if statement
       props.setHistory((prevHistory) => [
         ...prevHistory,
         { type: "output", content: output },
@@ -126,7 +144,7 @@ export function REPLInput(props: REPLInputProps) {
         { type: "output", content: "Error: Unable to execute the command" }, //for some reason, it ALWAYYSSS is this
       ]);
     }
-    
+
     setCommandString("");
   }
 
