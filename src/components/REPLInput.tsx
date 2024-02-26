@@ -66,9 +66,9 @@ export function REPLInput(props: REPLInputProps) {
     }
   };
 
-  const viewFile = (): string[][] => {
+  // const viewFile = (): string[][] => {
       
-   };
+  //  };
 
    const viewCommand: REPLFunction = (args) => {
      return "hey"
