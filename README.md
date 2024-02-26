@@ -22,3 +22,7 @@ https://www.geeksforgeeks.org/typescript-non-null-assertion-operator-postfix-typ
 
 slicing array
 https://refine.dev/blog/javascript-slice/
+
+useEffect
+https://legacy.reactjs.org/docs/hooks-effect.html 
+

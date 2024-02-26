@@ -1,5 +1,5 @@
 import "../styles/main.css";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { SourceTextModule } from "vm";
 import { REPLFunction } from "./REPLFunction";
@@ -56,10 +56,12 @@ export function REPLInput(props: REPLInputProps) {
   };
 
   const loadFileCommand: REPLFunction = (args) => {
+    return "hey";
     if (args.length === 1) {
       const filePath = args[0];
       const result = loadFile(filePath);
-      return result;
+      // return result;
+      return [["loaded successfully"]]
     } else {
       return [["unsuccessful load"]];
     }
@@ -88,7 +90,7 @@ export function REPLInput(props: REPLInputProps) {
       // cited in readme
       const result = commandFunction(args.slice(1));
       if (!result) {
-        return result;
+        return null;
       }
     }
   };
