@@ -1,0 +1,19 @@
+.search-results {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    border: 2px solid blue;
+    text-align: center;
+    background-color: rgb(84, 81, 81);
+}
+
+.search-results table {
+    border-collapse: collapse; 
+    width: auto; 
+}
+
+.search-results td {
+    padding: 5px; 
+    text-align: center; 
+}
+

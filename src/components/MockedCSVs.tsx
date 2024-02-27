@@ -8,6 +8,16 @@ const csvDict: { [key: string]: string[][] } = {
     ["red", "blue", "yellow"],
     ["orange", "green", "purple"],
   ],
+  flowers: [
+    ["lily", "blue"],
+    ["lily", "green"],
+    ["daisy", "red"],
+    ["sunflower", "yellow"],
+    ["lily", "pink"],
+    ["poppy", "red"],
+    ["mangolia", "blue"],
+    ["lily", "green"],
+  ],
 };
 
 export default csvDict;
