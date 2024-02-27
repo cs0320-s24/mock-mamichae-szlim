@@ -18,6 +18,19 @@ const csvDict: { [key: string]: string[][] } = {
     ["mangolia", "blue"],
     ["lily", "green"],
   ],
+  fruits: [
+    ["name", "color"],
+    ["orange", "orange"],
+    ["apple", "red"],
+    ["yellow", "banana"],
+  ],
+  students: [
+    ["name", "year", "age", "major", "dorm", "id number"],
+    ["grace", "freshman", "18", "iapa", "andrews", "38567495"],
+    ["sophie", "freshman", "17", "hiaa", "metcalf", "84739057"],
+    ["emily", "sophomore", "20", "hiaa", "slater", "947385759"],
+    ["jake", "senior", "22", "pols", "danoff", "17584769"],
+  ]
 };
 
 export default csvDict;

@@ -2,9 +2,8 @@
     display: flex;
     justify-content: center; 
     align-items: center; 
-    border: 2px solid blue;
+    border: 2px solid hotpink;
     text-align: center;
-    background-color: rgb(84, 81, 81);
 }
 
 .view-component table {
@@ -13,7 +12,8 @@
 }
 
 .view-component td {
-    padding: 5px; 
+    padding: 10px; 
     text-align: center; 
+    border: 1px solid pink;
 }
 
