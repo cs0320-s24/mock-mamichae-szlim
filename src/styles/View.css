@@ -1,0 +1,9 @@
+.view-component {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto; 
+    width: 100%; 
+    border: 2px solid blue;
+    text-align: center;
+}
+

@@ -1,14 +1,13 @@
 import React from 'react';
+import '../styles/View.css'; 
 
 interface ViewProps {
     data: string[][];
 }
 
 const View: React.FC<ViewProps> = ({ data }) => {
-    // Render the data as an HTML table
     return (
         <div className="view-component">
-            <h2>CSV Data</h2>
             <table>
                 <thead>
                     <tr>
