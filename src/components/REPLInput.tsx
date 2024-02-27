@@ -56,24 +56,24 @@ export function REPLInput(props: REPLInputProps) {
   //   }
   // };
 
-  const loadFileCommand: REPLFunction = (args) => {
-    if (args.length === 1) {
-      const filePath = args[0];
-      const result = loadFile(filePath);
-      // return result;
-      return [["loaded successfully"]];
-    } else {
-      return [["unsuccessful load"]];
-    }
-  };
+  // const loadFileCommand: REPLFunction = (args) => {
+  //   if (args.length === 1) {
+  //     const filePath = args[0];
+  //     const result = loadFile(filePath);
+  //     // return result;
+  //     return [["loaded successfully"]];
+  //   } else {
+  //     return [["unsuccessful load"]];
+  //   }
+  // };
 
   // const viewFile = (): string[][] => {
       
   //  };
 
-   const viewCommand: REPLFunction = (args) => {
-     return "hey"
-   };
+  //  const viewCommand: REPLFunction = (args) => {
+  //    return "hey"
+  //  };
 
   // commandMap.set("mode", toggleModeCommand);
   // commandMap.set("load_file", loadFileCommand);

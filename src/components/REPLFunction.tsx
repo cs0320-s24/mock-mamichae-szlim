@@ -9,7 +9,7 @@ export interface REPLFunction {
 }
 
 let filePath: string;
-let loadResult: string[][] = [];
+let loadResult: string[][] = null;
 
 const commandsObject = {
     load_file: (args: string[]) => {
@@ -25,7 +25,12 @@ const commandsObject = {
     },
     view: (args: string[]) => {
         //return "hi";
-        return <View data={loadResult} />; 
+        if(loadResult===null){
+            return <View data={[["please load a file first"]]} />; 
+        }else{
+            return <View data={loadResult} />; 
+        }
+        
     },
     search: (args: string[]): JSX.Element => {
         const column = args[0];
