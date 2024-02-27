@@ -4,7 +4,8 @@ import { ControlledInput } from "./ControlledInput";
 import { SourceTextModule } from "vm";
 import { REPLFunction } from "./REPLFunction";
 import { HistoryLog } from "./HistoryLog";
-//import { LoadFunction } from "./Load";
+import { loadFile } from "./Load";
+import { commands } from "./REPLFunction";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -26,7 +27,7 @@ export function REPLInput(props: REPLInputProps) {
   const [count, setcount] = useState<number>(0);
 
   // mutable use let -> will this be allowed?
-  const commandMap = new Map<string, REPLFunction>();
+  //const commandMap = new Map<string, REPLFunction>();
 
   // let commandArr = [];
   // let command = '';
@@ -44,16 +45,16 @@ export function REPLInput(props: REPLInputProps) {
     return [["mode switched"]];
   };
 
-  const loadFile = (filePath: string): string[][] => {
-    const datasets = new Map<string, string[][]>();
-    if (datasets.has(filePath)) {
-      // non-null assertion, cited in readme
-      // but do we know it's really null?
-      return datasets.get(filePath)!;
-    } else {
-      return [["error"]];
-    }
-  };
+  // const loadFile = (filePath: string): string[][] => {
+  //   const datasets = new Map<string, string[][]>();
+  //   if (datasets.has(filePath)) {
+  //     // non-null assertion, cited in readme
+  //     // but do we know it's really null?
+  //     return datasets.get(filePath)!;
+  //   } else {
+  //     return [["error"]];
+  //   }
+  // };
 
   const loadFileCommand: REPLFunction = (args) => {
     if (args.length === 1) {
@@ -74,9 +75,12 @@ export function REPLInput(props: REPLInputProps) {
      return "hey"
    };
 
+  // commandMap.set("mode", toggleModeCommand);
+  // commandMap.set("load_file", loadFileCommand);
+  // commandMap.set("view", viewCommand);
+
+  const commandMap = commands;
   commandMap.set("mode", toggleModeCommand);
-  commandMap.set("load_file", loadFileCommand);
-  commandMap.set("view", viewCommand);
 
   function extractCommands(commandString: string) {
     const args = commandString.split(" ");
