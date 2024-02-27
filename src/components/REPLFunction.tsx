@@ -24,7 +24,6 @@ const commandsObject = {
           }
     },
     view: (args: string[]) => {
-        //return "hi";
         if(loadResult===null){
             return <View data={[["please load a file first"]]} />; 
         }else{
@@ -33,6 +32,9 @@ const commandsObject = {
         
     },
     search: (args: string[]): JSX.Element => {
+        if (loadResult === null) {
+          return <View data={[["please load a file first"]]} />;
+        }
         const column = args[0];
         const value = args[1]; 
         const dataset = csvDict[filePath];
