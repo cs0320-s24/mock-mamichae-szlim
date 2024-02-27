@@ -9,7 +9,7 @@ export interface REPLFunction {
 }
 
 let filePath: string;
-let loadResult: string[][] = null;
+let loadResult: string[][] | null = null;
 
 const commandsObject = {
     load_file: (args: string[]) => {
@@ -38,20 +38,40 @@ const commandsObject = {
         const column = args[0];
         const value = args[1]; 
         const dataset = csvDict[filePath];
-    
-        // Filter the dataset based on the column and value
-        const filteredResults = dataset.filter(row => {
+
+        const columnIdentifier = dataset[0].indexOf(column);
+
+        if(columnIdentifier !== -1){
+          // Filter the dataset based on the column and value
+          const filteredResults = dataset.filter((row) => {
             const columnIndex = parseInt(column);
             if (!isNaN(columnIndex)) {
-                // If the column is given as an index
-                return row[columnIndex] === value;
+              // If the column is given as an index
+              return row[columnIndex] === value;
             } else {
-                // If the column is given as a column name
-                return row.includes(value);
+              // If the column is given as a column name
+              return row.includes(value);
             }
-        });
-        // Render the search results component
-        return <Search results={filteredResults} />;
+          });
+          // Render the search results component
+          return <Search results={filteredResults} />;
+        }else{
+            return <Search results={[["Column not found in the top row of csv"]]} />;
+        }
+    
+        // // Filter the dataset based on the column and value
+        // const filteredResults = dataset.filter(row => {
+        //     const columnIndex = parseInt(column);
+        //     if (!isNaN(columnIndex)) {
+        //         // If the column is given as an index
+        //         return row[columnIndex] === value;
+        //     } else {
+        //         // If the column is given as a column name
+        //         return row.includes(value);
+        //     }
+        // });
+        // // Render the search results component
+        // return <Search results={filteredResults} />;
     }
   };
   
