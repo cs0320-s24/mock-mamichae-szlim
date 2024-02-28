@@ -25,9 +25,9 @@ const commandsObject = {
   },
   view: (args: string[]) => {
     if (loadResult === null) {
-      return <View data={[["please load a file first"]]} />;
+      return "please load a file first";
     } else if (args.length !== 0) {
-      return <View data={[["incorrect number of arguments"]]} />;
+      return "incorrect number of arguments";;
     } else {
       return <View data={loadResult} />;
     }
