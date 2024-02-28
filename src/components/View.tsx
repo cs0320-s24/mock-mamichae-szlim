@@ -7,19 +7,19 @@ interface ViewProps {
 
 const View: React.FC<ViewProps> = ({ data }) => {
     return (
-        <div className="view-component">
-            <table>
-                <tbody>
-                    {data.map((row, rowIndex) => (
-                        <tr key={rowIndex} className="data-row">
-                            {row.map((cell, cellIndex) => (
-                                <td key={cellIndex}>{cell}</td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+      <div className="view-component" id="view-table">
+        <table>
+          <tbody>
+            {data.map((row, rowIndex) => (
+              <tr key={rowIndex} className="data-row">
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex}>{cell}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
 };
 

@@ -120,7 +120,32 @@ test("load_file not enough arguments", async ({ page }) => {});
 
 test("load_file too many arguments", async ({ page }) => {});
 
-test("view simple csv output", async ({ page }) => {});
+test("load_file not found in dict", async ({ page }) => {});
+
+test("view simple csv output", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file fruits");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("loaded successfully")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("view");
+  await page.getByLabel("Submit").click();
+
+  //method cited in readme
+  const tableView = await page.locator('#view-table tbody');
+  const rowCount = await tableView.locator("tr").count();
+
+  // expects 4 rows in the table
+  await expect(rowCount).toBe(4);
+
+  // const allRows = await page.locator("#view-table tbody tr").all();
+  // await allRows.forEach(async(rows)=>{await expect(rows.locator("td").count()).toBe(2)})
+
+
+});
+
+test("load view both modes", async ({ page }) => {});
 
 test("view large csv output", async ({ page }) => {});
 
@@ -146,6 +171,4 @@ test("load view search sequence", async ({ page }) => {});
 
 test("load search multiple datasets in same sequence", async ({ page }) => {});
 
-test("load search both modes", async ({ page }) => {});
-
-test("load view both modes", async ({ page }) => {});
+test("search both modes", async ({ page }) => {});

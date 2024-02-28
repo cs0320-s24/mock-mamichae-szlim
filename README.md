@@ -26,3 +26,5 @@ https://refine.dev/blog/javascript-slice/
 useEffect
 https://legacy.reactjs.org/docs/hooks-effect.html 
 
+testing tables in playwright
+https://testerops.com/playwright-table-handling-1/
