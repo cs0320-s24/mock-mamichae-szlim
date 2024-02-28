@@ -42,7 +42,8 @@ export function REPLInput(props: REPLInputProps) {
   // Function for toggling between 'brief' and 'verbose' modes
   const toggleModeCommand: REPLFunction = () => {
     props.setMode((prevMode) => (prevMode === "brief" ? "verbose" : "brief"));
-    return [["mode switched"]];
+    // return "[["mode switched"]]";
+    return "mode switched";
   };
 
   // const loadFile = (filePath: string): string[][] => {

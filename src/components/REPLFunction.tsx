@@ -6,6 +6,7 @@ import searchQueries from "./MockedSearchResults";
 
 export interface REPLFunction {
   (args: string[]): string | string[][] | JSX.Element;
+  //we added JSX element as our search returns a jsx element (a table structure representing search results)
 }
 
 let filePath: string;
