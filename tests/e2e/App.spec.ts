@@ -143,3 +143,9 @@ test("search no results", async ({ page }) => {});
 test("search unloaded file", async ({ page }) => {});
 
 test("load view search sequence", async ({ page }) => {});
+
+test("load search multiple datasets in same sequence", async ({ page }) => {});
+
+test("load search both modes", async ({ page }) => {});
+
+test("load view both modes", async ({ page }) => {});

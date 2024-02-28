@@ -13,9 +13,7 @@ import { HistoryLog } from './HistoryLog';
 */
 
 export default function REPL() {
-  // TODO: Add some kind of shared state that holds all the commands submitted.
 
-  // const [history, setHistory] = useState<string[]>([]);
   const [history, setHistory] = useState<HistoryLog[]>([]);
   const [mode, setMode] = useState<string>("brief");
 

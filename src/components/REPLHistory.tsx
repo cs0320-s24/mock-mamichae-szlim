@@ -37,16 +37,6 @@ function renderHistory(item: HistoryLog, index: number, mode: string) {
             )}
           </div>
         );
-        // if (item.type === 'command') {
-        //     return <p key={index}>Command: {item.content}</p>;
-        // } else if (item.type === 'output') {
-        //     return (
-        //         <p key={index}>
-        //             Output: {Array.isArray(item.content) ? item.content.join(', ') : item.content}
-        //             {/* got array check from chat, do we need it? */}
-        //         </p>
-        //     );
-        // }
     } else {
         if (item.type === 'output') {
             return (
