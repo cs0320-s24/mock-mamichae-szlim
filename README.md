@@ -16,6 +16,8 @@
 
 # Errors/Bugs
     like none???
+    Currently cant handle searching for values with spaces. ie, you can have the search value "sophia" but not "sophia melanie". We think this logic is better handled in the backend.
+
 # Tests
 
 # How to

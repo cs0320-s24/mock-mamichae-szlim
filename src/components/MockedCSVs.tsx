@@ -14,6 +14,7 @@ const csvDict: { [key: string]: string[][] } = {
     ["orange", "green", "purple"],
   ],
   flowers: [
+    ["flower", "color"],
     ["lily", "blue"],
     ["lily", "green"],
     ["daisy", "red"],
