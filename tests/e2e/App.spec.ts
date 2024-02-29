@@ -141,20 +141,19 @@ test("load_file not found in dict", async ({ page }) => {
 });
 
 test("load malformed csv", async ({ page }) => {
-    await page.getByLabel("Login").click();
-    await page.getByLabel("Command input").click();
-    await page.getByLabel("Command input").fill("load_file malformed");
-    await page.getByLabel("Submit").click();
-    await expect(
-      page.getByText("Your CSV is malformed. Unsuccessful.")
-    ).toBeVisible();
-
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file malformed");
+  await page.getByLabel("Submit").click();
+  await expect(
+    page.getByText("Your CSV is malformed. Unsuccessful.")
+  ).toBeVisible();
 });
 
 test("load empty csv", async ({ page }) => {
   await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("load_file malformed");
+  await page.getByLabel("Command input").fill("load_file empty");
   await page.getByLabel("Submit").click();
   await expect(
     page.getByText("Your CSV is empty. Unsuccessful.")
@@ -268,32 +267,153 @@ test("view unloaded csv", async ({ page }) => {
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("view");
   await page.getByLabel("Submit").click();
-    await expect(page.getByText("please load a file first")).toBeVisible();
+  await expect(page.getByText("please load a file first")).toBeVisible();
 });
 
-test("view incorrect arguments", async ({ page }) => {  await page.getByLabel("Login").click();
-await page.getByLabel("Command input").click();
-await page.getByLabel("Command input").fill("load_file fruits");
-await page.getByLabel("Submit").click();
-await page.getByLabel("Command input").click();
-await page.getByLabel("Command input").fill("view xyz");
-await page.getByLabel("Submit").click();
-await expect(page.getByText("incorrect number of arguments")).toBeVisible();
+test("view incorrect arguments", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file fruits");
+  await page.getByLabel("Submit").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("view xyz");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("incorrect number of arguments")).toBeVisible();
 });
 
-test("view empty csv", async ({ page }) => {});
+test("search one csv output", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file exampleCSV1");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("loaded successfully")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  //number col identifier
+  await page.getByLabel("Command input").fill("search 0 sophia");
+  await page.getByLabel("Submit").click();
 
-test("search one csv output", async ({ page }) => {});
+  //locator use cited in readme
+  const tableSearch = await page.locator("#search-table tbody");
+  const rowCount = await tableSearch.locator("tr").count();
 
-test("search multiple csv output", async ({ page }) => {});
+  await expect(rowCount).toBe(1);
 
-test("search string col identifier", async ({ page }) => {});
+  const allRows = await page.locator("#search-table tbody tr").all();
 
-test("search index col identifier", async ({ page }) => {});
+  const row0 = allRows[0];
+  const row0_cols = await row0.locator("td").all();
+  const row0_text = await Promise.all(
+    row0_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
 
-test("search no results", async ({ page }) => {});
+  expect(row0_text[0]).toBe("sophia");
+  expect(row0_text[1]).toBe("sagittarius");
+  expect(row0_text[2]).toBe("blue");
+});
 
-test("search unloaded file", async ({ page }) => {});
+test("search multiple csv output", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file flowers");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("loaded successfully")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  //string col identifier
+  await page.getByLabel("Command input").fill("search flower lily");
+  await page.getByLabel("Submit").click();
+
+  //locator use cited in readme
+  const tableSearch = await page.locator("#search-table tbody");
+  const rowCount = await tableSearch.locator("tr").count();
+
+  //two results
+  await expect(rowCount).toBe(4);
+
+  const allRows = await page.locator("#search-table tbody tr").all();
+
+  const row0 = allRows[0];
+  const row0_cols = await row0.locator("td").all();
+  const row0_text = await Promise.all(
+    row0_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row0_text[0]).toBe("lily");
+  expect(row0_text[1]).toBe("blue");
+
+  const row1 = allRows[1];
+  const row1_cols = await row1.locator("td").all();
+  const row1_text = await Promise.all(
+    row1_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row1_text[0]).toBe("lily");
+  expect(row1_text[1]).toBe("green");
+
+  const row2 = allRows[2];
+  const row2_cols = await row2.locator("td").all();
+  const row2_text = await Promise.all(
+    row2_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row2_text[0]).toBe("lily");
+  expect(row2_text[1]).toBe("pink");
+});
+
+test("search string col identifier", async ({ page }) => {
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file flowers");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("loaded successfully")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search flower lily");
+  await page.getByLabel("Submit").click();
+
+  //locator use cited in readme
+  const tableSearch = await page.locator("#search-table tbody");
+  const rowCount = await tableSearch.locator("tr").count();
+
+  //two results
+  await expect(rowCount).toBe(4);
+
+  const allRows = await page.locator("#search-table tbody tr").all();
+
+  const row0 = allRows[0];
+  const row0_cols = await row0.locator("td").all();
+  const row0_text = await Promise.all(
+    row0_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row0_text[0]).toBe("lily");
+  expect(row0_text[1]).toBe("blue");
+});
+
+test("search no results", async ({ page }) => {
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file flowers");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("loaded successfully")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search flower sillyflower");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("query not found")).toBeVisible();
+});
+
+test("search unloaded file", async ({ page }) => {
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search flower lily");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("please load a file first")).toBeVisible();
+});
 
 test("load view search sequence", async ({ page }) => {});
 

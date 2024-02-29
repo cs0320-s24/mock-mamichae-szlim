@@ -7,19 +7,19 @@ interface SearchResultsProps {
 
 const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
     return (
-        <div className="search-results">
-            <table>
-                <tbody>
-                    {results.map((row, rowIndex) => (
-                        <tr key={rowIndex} className="search-data-row">
-                            {row.map((cell, cellIndex) => (
-                                <td key={cellIndex}>{cell}</td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+      <div className="search-results" id="search-table">
+        <table>
+          <tbody>
+            {results.map((row, rowIndex) => (
+              <tr key={rowIndex} className="search-data-row">
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex}>{cell}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
 };
 
