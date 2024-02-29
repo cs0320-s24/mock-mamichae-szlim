@@ -368,6 +368,7 @@ test("search multiple csv output", async ({ page }) => {
 });
 
 test("search string col identifier", async ({ page }) => {
+  await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("load_file flowers");
   await page.getByLabel("Submit").click();
@@ -398,6 +399,7 @@ test("search string col identifier", async ({ page }) => {
 });
 
 test("search no results", async ({ page }) => {
+  await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("load_file flowers");
   await page.getByLabel("Submit").click();
@@ -409,13 +411,83 @@ test("search no results", async ({ page }) => {
 });
 
 test("search unloaded file", async ({ page }) => {
+  await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("search flower lily");
   await page.getByLabel("Submit").click();
   await expect(page.getByText("please load a file first")).toBeVisible();
 });
 
-test("load view search sequence", async ({ page }) => {});
+test("load view search sequence", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+
+  //load
+  await page.getByLabel("Command input").fill("load_file exampleCSV1");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("loaded successfully")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  //view
+  await page.getByLabel("Command input").fill("view");
+  await page.getByLabel("Submit").click();
+
+  const tableView = await page.locator("#view-table tbody");
+  const rowCountView = await tableView.locator("tr").count();
+
+  //check full table
+  await expect(rowCountView).toBe(3);
+
+  const allRowsView = await page.locator("#view-table tbody tr").all();
+
+  const row0_view = allRowsView[0];
+  const row0_cols_view = await row0_view.locator("td").all();
+  const row0_text_view = await Promise.all(
+    row0_cols_view.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row0_text_view[0]).toBe("sophia");
+  expect(row0_text_view[1]).toBe("sagittarius");
+  expect(row0_text_view[2]).toBe("blue");
+
+  const row1_view = allRowsView[1];
+  const row1_cols_view = await row1_view.locator("td").all();
+  const row1_text_view = await Promise.all(
+    row1_cols_view.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row1_text_view[0]).toBe("melanie");
+  expect(row1_text_view[1]).toBe("aries");
+  expect(row1_text_view[2]).toBe("purple");
+
+  //search
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search 0 sophia");
+  await page.getByLabel("Submit").click();
+
+  const tableSearch = await page.locator("#search-table tbody");
+  const rowCount = await tableSearch.locator("tr").count();
+
+  //check only search result row shows
+  await expect(rowCount).toBe(1);
+
+  const allRows = await page.locator("#search-table tbody tr").all();
+
+  const row0 = allRows[0];
+  const row0_cols = await row0.locator("td").all();
+  const row0_text = await Promise.all(
+    row0_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row0_text[0]).toBe("sophia");
+  expect(row0_text[1]).toBe("sagittarius");
+  expect(row0_text[2]).toBe("blue");
+});
 
 test("load search multiple datasets in same sequence", async ({ page }) => {});
 
