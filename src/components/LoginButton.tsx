@@ -1,12 +1,26 @@
 import { Dispatch, SetStateAction } from 'react';
 
+/**
+ * Props for the LoginButton component.
+ */
 
 interface loginProps {
   isLoggedIn: boolean
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>
 }
 
+/**
+ * Component that represents a login button.
+ * @param props props for the component.
+ * @returns JSX element representing the login button
+ */
+
 export function LoginButton(props: loginProps) {
+
+  /**
+   * Toggles the login state between logged in/out.
+   * @returns the login state value. 
+   */
 
   const authenticate = () => {
     const newValue = !props.isLoggedIn

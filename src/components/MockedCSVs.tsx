@@ -1,3 +1,8 @@
+/**
+ * A dictionary that contains mocked CSV data
+ * Keys represent the file paths, and values represent the CSV data as arrays. 
+ */
+
 const csvDict: { [key: string]: string[][] } = {
   exampleCSV1: [
     ["sophia", "sagittarius", "blue"],

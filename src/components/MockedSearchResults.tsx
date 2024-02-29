@@ -1,3 +1,8 @@
+/**
+ * A dictionary that contains mocked search queries and results.
+ * Keys represent the search queries, and values represent the search results as arrays. 
+ */
+
 const searchQueries: { [key: string]: string[][] } = {
   "0 sophia": [
     ["sophia", "sagittarius", "blue"]
@@ -12,4 +17,4 @@ const searchQueries: { [key: string]: string[][] } = {
   ],
 };
 
-  export default searchQueries;
+export default searchQueries;

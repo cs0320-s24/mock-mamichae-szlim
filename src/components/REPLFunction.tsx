@@ -4,6 +4,11 @@ import csvDict from "./MockedCSVs";
 import Search from "./Search";
 import searchQueries from "./MockedSearchResults";
 
+/**
+ * Interface for REPLFunction. 
+ * It takes an array of string arguments and can return strings, string arrays, or JSX elements.
+ */
+
 export interface REPLFunction {
   (args: string[]): string | string[][] | JSX.Element;
   //we added JSX element as our search returns a jsx element (a table structure representing search results)
@@ -12,7 +17,13 @@ export interface REPLFunction {
 let filePath: string;
 let loadResult: string[][] | null = null;
 
+
 const commandsObject = {
+/**
+ * Command function to load a CSV file.
+ * @param args array containing the file path to load.
+ * @returns message that states whether the file was loaded successfully or not.
+ */
   load_file: (args: string[]) => {
     if (args.length === 1) {
       filePath = args[0];
@@ -33,6 +44,11 @@ const commandsObject = {
       return [["unsuccessful load"]];
     }
   },
+/**
+ * Command function to view the loaded CSV data.
+ * @param args array.
+ * @returns JSX element representing the loaded CSV data or error message if not loaded.
+ */
   view: (args: string[]) => {
     if (loadResult === null) {
       return "please load a file first";
@@ -42,6 +58,11 @@ const commandsObject = {
       return <View data={loadResult} />;
     }
   },
+/**
+ * Command function to search within the loaded CSV.
+ * @param args array containing the search query (with column id/name and value).
+ * @returns JSX element representing the search results table or error message if not loaded or query not found.
+ */
   search: (args: string[]): JSX.Element | string=> {
     if (loadResult === null) {
       return "please load a file first";

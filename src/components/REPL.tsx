@@ -12,6 +12,13 @@ import { HistoryLog } from './HistoryLog';
   You don't need to do that for this gearup.
 */
 
+
+/**
+ * REPL component represents the command line interface where users can input commands 
+ * and view the output (or command and output) history.
+ * It also manages the state of command history and mode state (brief or verbose).
+ * @returns JSX element that  the REPL component.
+ */
 export default function REPL() {
 
   const [history, setHistory] = useState<HistoryLog[]>([]);

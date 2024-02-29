@@ -1,9 +1,19 @@
 import React from 'react';
 import '../styles/Search.css'; 
 
+/**
+ * Props interface for the Search component.
+ */
+
 interface SearchResultsProps {
     results: string[][];
 }
+
+/**
+ * Component responsible for rendering the search results in a table format.
+ * @param results results to be displated.
+ * @returns JSX element that represents the table.
+ */
 
 const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
     return (

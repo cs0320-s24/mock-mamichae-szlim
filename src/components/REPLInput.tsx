@@ -7,6 +7,10 @@ import { HistoryLog } from "./HistoryLog";
 import { loadFile } from "./Load";
 import { commands } from "./REPLFunction";
 
+/**
+ * Props interface for the REPLInput component.
+ */
+
 interface REPLInputProps {
 
   history: HistoryLog[];
@@ -15,6 +19,11 @@ interface REPLInputProps {
   setMode: Dispatch<SetStateAction<string>>;
 }
 
+/**
+ * Component that handles user input and commands. 
+ * @param props props containing history log and mode. 
+ * @returns JSX element representing the REPL input. 
+ */
 
 export function REPLInput(props: REPLInputProps) {
 
@@ -30,20 +39,23 @@ export function REPLInput(props: REPLInputProps) {
   // Function for toggling between 'brief' and 'verbose' modes
   const toggleModeCommand: REPLFunction = () => {
     props.setMode((prevMode) => (prevMode === "brief" ? "verbose" : "brief"));
-    // return "[["mode switched"]]";
     return "mode switched";
   };
 
   const commandMap = commands;
   commandMap.set("mode", toggleModeCommand);
 
+  /**
+   * Extracts command and arguments from the input string, executes the command, and returns the output.
+   * @param commandString input command string.
+   * @returns output of the executed command.
+   */
+
   function extractCommands(commandString: string) {
     const args = commandString.split(" ");
     const command = args[0].toLowerCase();
     if (commandMap.has(command)) {
       const commandFunction = commandMap.get(command)!;
-      // slice removes first element at zero, creates new array
-      // cited in readme
       const result = commandFunction(args.slice(1));
       if (!result) {
         return null;
@@ -53,6 +65,11 @@ export function REPLInput(props: REPLInputProps) {
     }
   }
 
+  /**
+   * Handles command submission when submit button is clicked. 
+   * Updates history based on the command and its output.
+   * @param commandString input command string to be used. 
+   */
   function handleSubmit(commandString: string) {
 
     props.setHistory((prevHistory) => [
@@ -68,7 +85,6 @@ export function REPLInput(props: REPLInputProps) {
         { type: "output", content: output },
       ]);
     } else {
-      // If output is null (indicating an error), add an error message to the history
       props.setHistory((prevHistory) => [
         ...prevHistory,
         { type: "output", content: "Error: Unable to execute the command" }, 

@@ -1,12 +1,20 @@
 import '../styles/main.css';
 import { Dispatch, SetStateAction } from 'react';
 
+/**
+ * Props for the ControlledInput component.
+ */
 interface ControlledInputProps {
     value: string, 
     setValue: Dispatch<SetStateAction<string>>,
     ariaLabel: string 
   }
 
+  /**
+   * A component that handles the input given by the user. 
+   * @param props - props for the ControlledInput component
+   * @returns the controlled input
+   */
   export function ControlledInput({value, setValue, ariaLabel}: ControlledInputProps) {
     return (
       <input type="text" className="repl-command-box"
