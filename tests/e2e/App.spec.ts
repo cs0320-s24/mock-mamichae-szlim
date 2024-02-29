@@ -133,11 +133,22 @@ test("load_file too many arguments", async ({ page }) => {
 });
 
 test("load_file not found in dict", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file sillyFile");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("file path not found")).toBeVisible();
+});
+
+test("load malformed csv", async ({ page }) => {
     await page.getByLabel("Login").click();
     await page.getByLabel("Command input").click();
-    await page.getByLabel("Command input").fill("load_file sillyFile");
+    await page.getByLabel("Command input").fill("load_file malformed");
     await page.getByLabel("Submit").click();
-    await expect(page.getByText("file path not found")).toBeVisible();
+    await expect(
+      page.getByText("Your CSV is malformed. Unsuccessful.")
+    ).toBeVisible();
+
 });
 
 test("view simple csv output", async ({ page }) => {
@@ -182,15 +193,71 @@ test("view simple csv output", async ({ page }) => {
   expect(row1_text[1]).toBe("orange");
 });
 
-test("load view both modes", async ({ page }) => {});
+test("load view both modes", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file fruits");
+  await page.getByLabel("Submit").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("view");
+  await page.getByLabel("Submit").click();
 
-test("view large csv output", async ({ page }) => {});
+  //locator use cited in readme
+  const tableView = await page.locator("#view-table tbody");
+  const rowCount = await tableView.locator("tr").count();
 
-test("view malformed csv output", async ({ page }) => {});
+  // expects 4 rows in the table
+  await expect(rowCount).toBe(4);
+
+  const allRows = await page.locator("#view-table tbody tr").all();
+
+  const row0 = allRows[0];
+  const row0_cols = await row0.locator("td").all();
+  const row0_text = await Promise.all(
+    row0_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row0_text[0]).toBe("name");
+  expect(row0_text[1]).toBe("color");
+
+  await page.getByLabel("Command input").fill("mode");
+  await page.getByLabel("Submit").click();
+  //check in verbose mode
+  await expect(page.getByText("You are in: Verbose Mode")).toBeVisible();
+  await expect(page.getByText("Command: mode")).toBeVisible();
+  await expect(page.getByText("Output: mode switched")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("view");
+  await page.getByLabel("Submit").click();
+
+  //two tables in history should now have "command: view" and "output:"" with the table
+  await expect(page.getByText("Command: view").nth(0)).toBeVisible(); //1st occurance now visible
+  await expect(page.getByText("Command: view").nth(1)).toBeVisible(); //2nd occurance
+
+  await expect(page.getByText("Output:").nth(0)).toBeVisible(); //1st occurance now visible
+  await expect(page.getByText("Output:").nth(1)).toBeVisible(); //2nd occurance
+
+  const allRows_table2 = await page.locator("#view-table tbody tr").all();
+
+  const row2 = allRows_table2[2];
+  const row2_cols = await row2.locator("td").all();
+  const row2_text = await Promise.all(
+    row2_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row2_text[0]).toBe("apple");
+  expect(row2_text[1]).toBe("red");
+});
 
 test("view unloaded csv", async ({ page }) => {});
 
 test("view incorrect arguments", async ({ page }) => {});
+
+test("view empty csv", async ({ page }) => {});
 
 test("search one csv output", async ({ page }) => {});
 

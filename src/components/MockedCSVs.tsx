@@ -2,7 +2,7 @@ const csvDict: { [key: string]: string[][] } = {
   exampleCSV1: [
     ["sophia", "sagittarius", "blue"],
     ["melanie", "aries", "purple"],
-    ["avery", "capricorn","red"]
+    ["avery", "capricorn", "red"],
   ],
   colors: [
     ["red", "blue", "yellow"],
@@ -30,7 +30,9 @@ const csvDict: { [key: string]: string[][] } = {
     ["sophie", "freshman", "17", "hiaa", "metcalf", "84739057"],
     ["emily", "sophomore", "20", "hiaa", "slater", "947385759"],
     ["jake", "senior", "22", "pols", "danoff", "17584769"],
-  ]
+  ],
+  malformed: [["name"], ["", "orange"], ["apple", "red"], ["yellow", "banana"]],
+  empty: []
 };
 
 export default csvDict;

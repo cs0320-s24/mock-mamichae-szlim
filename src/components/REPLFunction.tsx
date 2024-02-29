@@ -16,10 +16,18 @@ const commandsObject = {
   load_file: (args: string[]) => {
     if (args.length === 1) {
       filePath = args[0];
-      loadResult = loadFile(filePath);
-      if (loadResult.toString().includes("file path not found")){
-        return [["file path not found"]]
+      if (filePath === 'malformed') {
+        return "Your CSV is malformed. Unsuccessful.";
       }
+      if (filePath === "empty") {
+        return "Your CSV is empty. Unsuccessful.";
+      }
+
+      loadResult = loadFile(filePath);
+      
+      if (loadResult.toString().includes("file path not found")) {
+        return [["file path not found"]];
+      } 
         return [["loaded successfully"]];
     } else {
       return [["unsuccessful load"]];
@@ -29,7 +37,7 @@ const commandsObject = {
     if (loadResult === null) {
       return "please load a file first";
     } else if (args.length !== 0) {
-      return "incorrect number of arguments";;
+      return "incorrect number of arguments";
     } else {
       return <View data={loadResult} />;
     }
