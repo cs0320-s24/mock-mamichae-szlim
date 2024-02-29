@@ -271,7 +271,15 @@ test("view unloaded csv", async ({ page }) => {
     await expect(page.getByText("please load a file first")).toBeVisible();
 });
 
-test("view incorrect arguments", async ({ page }) => {});
+test("view incorrect arguments", async ({ page }) => {  await page.getByLabel("Login").click();
+await page.getByLabel("Command input").click();
+await page.getByLabel("Command input").fill("load_file fruits");
+await page.getByLabel("Submit").click();
+await page.getByLabel("Command input").click();
+await page.getByLabel("Command input").fill("view xyz");
+await page.getByLabel("Submit").click();
+await expect(page.getByText("incorrect number of arguments")).toBeVisible();
+});
 
 test("view empty csv", async ({ page }) => {});
 
