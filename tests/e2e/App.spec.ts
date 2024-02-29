@@ -328,7 +328,7 @@ test("search multiple csv output", async ({ page }) => {
   const tableSearch = await page.locator("#search-table tbody");
   const rowCount = await tableSearch.locator("tr").count();
 
-  //two results
+  //4 results
   await expect(rowCount).toBe(4);
 
   const allRows = await page.locator("#search-table tbody tr").all();
@@ -418,6 +418,60 @@ test("search unloaded file", async ({ page }) => {
   await expect(page.getByText("please load a file first")).toBeVisible();
 });
 
+test("two different queries, same csv", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file flowers");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("loaded successfully")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search flower lily");
+  await page.getByLabel("Submit").click();
+
+  //locator use cited in readme
+  const tableSearch = await page.locator("#search-table tbody");
+  const rowCount = await tableSearch.locator("tr").count();
+
+  //two results
+  await expect(rowCount).toBe(4);
+
+  const allRows = await page.locator("#search-table tbody tr").all();
+
+  const row1 = allRows[1];
+  const row1_cols = await row1.locator("td").all();
+  const row1_text = await Promise.all(
+    row1_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row1_text[0]).toBe("lily");
+  expect(row1_text[1]).toBe("green");
+
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search 1 blue");
+  await page.getByLabel("Submit").click();
+
+  const tableSearch2 = await page.locator("#search-table tbody").nth(1);
+  const rowCount2 = await tableSearch2.locator("tr").count();
+
+  //two results
+  await expect(rowCount2).toBe(2);
+
+  const allRows2 = await page.locator("#search-table tbody tr").all();
+
+  const row0 = allRows2[0];
+  const row0_cols = await row0.locator("td").all();
+  const row0_text = await Promise.all(
+    row0_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row0_text[0]).toBe("lily");
+  expect(row0_text[1]).toBe("blue");
+});
+
 test("load view search sequence", async ({ page }) => {
   await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
@@ -484,11 +538,157 @@ test("load view search sequence", async ({ page }) => {
     })
   );
 
+  //expected search out put
   expect(row0_text[0]).toBe("sophia");
   expect(row0_text[1]).toBe("sagittarius");
   expect(row0_text[2]).toBe("blue");
 });
 
-test("load search multiple datasets in same sequence", async ({ page }) => {});
+test("load view multiple datasets in same sequence", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
 
+  //load
+  await page.getByLabel("Command input").fill("load_file exampleCSV1");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("loaded successfully")).toBeVisible();
+  await page.getByLabel("Command input").click();
+  //view
+  await page.getByLabel("Command input").fill("view");
+  await page.getByLabel("Submit").click();
+
+  const tableView = await page.locator("#view-table tbody");
+  const rowCountView = await tableView.locator("tr").count();
+
+  //check full table
+  await expect(rowCountView).toBe(3);
+
+  const allRowsView = await page.locator("#view-table tbody tr").all();
+
+  const row0_view = allRowsView[0];
+  const row0_cols_view = await row0_view.locator("td").all();
+  const row0_text_view = await Promise.all(
+    row0_cols_view.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row0_text_view[0]).toBe("sophia");
+  expect(row0_text_view[1]).toBe("sagittarius");
+  expect(row0_text_view[2]).toBe("blue");
+
+  const row1_view = allRowsView[1];
+  const row1_cols_view = await row1_view.locator("td").all();
+  const row1_text_view = await Promise.all(
+    row1_cols_view.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row1_text_view[0]).toBe("melanie");
+  expect(row1_text_view[1]).toBe("aries");
+  expect(row1_text_view[2]).toBe("purple");
+
+  //load 2nd
+  await page.getByLabel("Command input").fill("load_file flowers");
+  await page.getByLabel("Submit").click();
+  //second successful load
+  await expect(page.getByText("loaded successfully").nth(1)).toBeVisible();
+  await page.getByLabel("Command input").click();
+  //view 2nd
+  await page.getByLabel("Command input").fill("view");
+  await page.getByLabel("Submit").click();
+
+  //check first is still there
+  expect(page.locator("#view-table tbody").nth(0)).toBeVisible();
+
+  //check second table appears
+  expect(page.locator("#view-table tbody").nth(1)).toBeVisible();
+
+  const tableView2 = await page.locator("#view-table tbody").nth(1);
+  const rowCountView2 = await tableView2.locator("tr").count();
+
+  //check full table
+  await expect(rowCountView2).toBe(9);
+
+  const allRowsView2 = await tableView2.locator("tr").all();
+
+  const row0_view2 = allRowsView2[0];
+  const row0_cols_view2 = await row0_view2.locator("td").all();
+  const row0_text_view2 = await Promise.all(
+    row0_cols_view2.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  //first row of second table
+  expect(row0_text_view2[0]).toBe("flower");
+  expect(row0_text_view2[1]).toBe("color");
+});
+
+test("load search multiple datasets in same sequence", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file flowers");
+  await page.getByLabel("Submit").click();
+  await page.getByLabel("Command input").click();
+  //string col identifier
+  await page.getByLabel("Command input").fill("search flower lily");
+  await page.getByLabel("Submit").click();
+
+  //locator use cited in readme
+  const tableSearch = await page.locator("#search-table tbody");
+  const rowCount = await tableSearch.locator("tr").count();
+
+  //4 results
+  await expect(rowCount).toBe(4);
+
+  const allRows = await page.locator("#search-table tbody tr").all();
+
+  const row1 = allRows[1];
+  const row1_cols = await row1.locator("td").all();
+  const row1_text = await Promise.all(
+    row1_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row1_text[0]).toBe("lily");
+  expect(row1_text[1]).toBe("green");
+
+  // //second file
+  // await page.getByLabel("Command input").click();
+  // await page.getByLabel("Command input").fill("load_file exampleCSV1");
+  // await page.getByLabel("Submit").click();
+  // await page.getByLabel("Command input").click();
+  // await page.getByLabel("Command input").fill("search 0 sophia");
+  // await page.getByLabel("Submit").click();
+
+  // //check firat table still on page
+  // expect(page.locator("#search-table tbody").nth(0)).toBeVisible();
+
+  // //check second table appears
+  // expect(page.locator("#search-table tbody").nth(1)).toBeVisible();
+
+  // const tableSearch2 = await page.locator("#search-table tbody").nth(1);
+  // const rowCount2 = await tableSearch2.locator("tr").count();
+
+  // await expect(rowCount2).toBe(1);
+
+  // const allRows2 = await page.locator("#search-table tbody tr").all();
+
+  // const row0 = allRows2[0];
+  // const row0_cols = await row0.locator("td").all();
+  // const row0_text = await Promise.all(
+  //   row0_cols.map(async (column) => {
+  //     return await column.textContent();
+  //   })
+  // );
+
+  // expect(row0_text[0]).toBe("sophia");
+  // expect(row0_text[1]).toBe("saggitarius");
+  // expect(row0_text[1]).toBe("blue");
+});
+
+test("view both modes", async ({ page }) => {});
 test("search both modes", async ({ page }) => {});
