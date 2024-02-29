@@ -151,6 +151,16 @@ test("load malformed csv", async ({ page }) => {
 
 });
 
+test("load empty csv", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file malformed");
+  await page.getByLabel("Submit").click();
+  await expect(
+    page.getByText("Your CSV is empty. Unsuccessful.")
+  ).toBeVisible();
+});
+
 test("view simple csv output", async ({ page }) => {
   await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
@@ -253,7 +263,13 @@ test("load view both modes", async ({ page }) => {
   expect(row2_text[1]).toBe("red");
 });
 
-test("view unloaded csv", async ({ page }) => {});
+test("view unloaded csv", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("view");
+  await page.getByLabel("Submit").click();
+    await expect(page.getByText("please load a file first")).toBeVisible();
+});
 
 test("view incorrect arguments", async ({ page }) => {});
 
