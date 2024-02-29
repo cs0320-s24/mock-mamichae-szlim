@@ -39,3 +39,6 @@ https://legacy.reactjs.org/docs/hooks-effect.html
 
 testing tables in playwright
 https://testerops.com/playwright-table-handling-1/
+
+promise all for testing tables in playwright 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all

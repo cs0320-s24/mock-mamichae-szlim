@@ -116,11 +116,29 @@ test("load_file success", async ({ page }) => {
   await expect(page.getByText("loaded successfully")).toBeVisible();
 });
 
-test("load_file not enough arguments", async ({ page }) => {});
+test("load_file not enough arguments", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("unsuccessful load")).toBeVisible();
+});
 
-test("load_file too many arguments", async ({ page }) => {});
+test("load_file too many arguments", async ({ page }) => {
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file x y");
+  await page.getByLabel("Submit").click();
+  await expect(page.getByText("unsuccessful load")).toBeVisible();
+});
 
-test("load_file not found in dict", async ({ page }) => {});
+test("load_file not found in dict", async ({ page }) => {
+    await page.getByLabel("Login").click();
+    await page.getByLabel("Command input").click();
+    await page.getByLabel("Command input").fill("load_file sillyFile");
+    await page.getByLabel("Submit").click();
+    await expect(page.getByText("file path not found")).toBeVisible();
+});
 
 test("view simple csv output", async ({ page }) => {
   await page.getByLabel("Login").click();
@@ -132,17 +150,36 @@ test("view simple csv output", async ({ page }) => {
   await page.getByLabel("Command input").fill("view");
   await page.getByLabel("Submit").click();
 
-  //method cited in readme
-  const tableView = await page.locator('#view-table tbody');
+  //locator use cited in readme
+  const tableView = await page.locator("#view-table tbody");
   const rowCount = await tableView.locator("tr").count();
 
   // expects 4 rows in the table
   await expect(rowCount).toBe(4);
 
-  // const allRows = await page.locator("#view-table tbody tr").all();
-  // await allRows.forEach(async(rows)=>{await expect(rows.locator("td").count()).toBe(2)})
+  const allRows = await page.locator("#view-table tbody tr").all();
 
+  const row0 = allRows[0];
+  const row0_cols = await row0.locator("td").all();
+  const row0_text = await Promise.all(
+    row0_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
 
+  expect(row0_text[0]).toBe("name");
+  expect(row0_text[1]).toBe("color");
+
+  const row1 = allRows[1];
+  const row1_cols = await row1.locator("td").all();
+  const row1_text = await Promise.all(
+    row1_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row1_text[0]).toBe("orange");
+  expect(row1_text[1]).toBe("orange");
 });
 
 test("load view both modes", async ({ page }) => {});
