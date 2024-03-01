@@ -7,8 +7,6 @@ import "../styles/main.css";
 import csvDict from "./MockedCSVs";
 
 
-//interface LoadProps {}
-
 /**
  * Loads a CSV file from the provided file path, in this case returns mocked data. 
  * @param filePath the path of the CSV file to load

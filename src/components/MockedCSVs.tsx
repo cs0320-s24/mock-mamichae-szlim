@@ -38,7 +38,12 @@ const csvDict: { [key: string]: string[][] } = {
     ["jake", "senior", "22", "pols", "danoff", "17584769"],
   ],
   malformed: [["name"], ["", "orange"], ["apple", "red"], ["yellow", "banana"]],
-  empty: []
+  empty: [],
+  oneCol: [
+    ["insect"],
+    ["mammal"],
+    ["reptile"],
+  ],
 };
 
 export default csvDict;

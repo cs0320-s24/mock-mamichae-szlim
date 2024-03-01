@@ -19,6 +19,9 @@ const searchQueries: { [key: string]: string[][] } = {
     ["lily", "pink"],
     ["lily", "green"],
   ],
+  "0 reptile": [
+    ["reptile"]
+  ],
 };
 
 export default searchQueries;
