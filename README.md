@@ -1,21 +1,21 @@
 > **GETTING STARTED:** You should likely start with the `/mock` folder from your solution code for the mock gearup.
 
 # Project Details
-    Project name: Mock
-    Sophia Lim (szlim), Melanie Michael (mamichae)
-    Hours spent: 12? idk
-    Repo link: https://github.com/cs0320-s24/mock-mamichae-szlim
+Project name: Mock
+Sophia Lim (szlim), Melanie Michael (mamichae)
+Hours spent: 12? idk
+Repo link: https://github.com/cs0320-s24/mock-mamichae-szlim
 
 # Design Choices
-    The App class contains the LoginButton and REPL components. 
-    The primary classes of our project include the components REPL, which handles the entire interface, and contains the components REPLInput and REPLHistory, which handle the input commands provided by the user, and the displayed history of commands and output, respectively. 
-    Both REPLInput and REPLHistory work with the interface HistoryLog, which provides an array structure that holds commands and their corresponding output. When the submit button is clicked, REPLInput adds the command and corresponding output to the HistoryLog, thanks to the values returned by the component ControlledInput. As REPLInput re-renders, so does REPL, and therefore REPLHistory, who also takes in the HistoryLog as props, and updates the display to showcase the appropriate addition. 
-    For handling commands, REPLInput uses the interface REPLFunction, which is the component that manages and execute command functionality. The structure of REPLFunction is that it accepts an array of strings (command arguments) and may return either a string, a 2D array of strings, or a JSX element (representing the output of the command). This allows for other developers to easily add their own commands, with a variety of output types. The command ToggleMode is also included in the commands map, which allows the user to change between brief and verbose mode. 
-    The commands already included in the code for managing the CSV data are the components Load, View, and Search. The functionality of these components are called in REPLFunction, however, the actual functionality is not implemented as they are mocked. 
+The App class contains the LoginButton and REPL components. 
+The primary classes of our project include the components REPL, which handles the entire interface, and contains the components REPLInput and REPLHistory, which handle the input commands provided by the user, and the displayed history of commands and output, respectively. 
+Both REPLInput and REPLHistory work with the interface HistoryLog, which provides an array structure that holds commands and their corresponding output. When the submit button is clicked, REPLInput adds the command and corresponding output to the HistoryLog, thanks to the values returned by the component ControlledInput. As REPLInput re-renders, so does REPL, and therefore REPLHistory, who also takes in the HistoryLog as props, and updates the display to showcase the appropriate addition. 
+For handling commands, REPLInput uses the interface REPLFunction, which is the component that manages and execute command functionality. The structure of REPLFunction is that it accepts an array of strings (command arguments) and may return either a string, a 2D array of strings, or a JSX element (representing the output of the command). This allows for other developers to easily add their own commands, with a variety of output types. The command ToggleMode is also included in the commands map, which allows the user to change between brief and verbose mode. 
+The commands already included in the code for managing the CSV data are the components Load, View, and Search. The functionality of these components are called in REPLFunction, however, the actual functionality is not implemented as they are mocked. 
     The files MockedCSVs and MockedSearchResults contain mocked data for viewing and mocked search commands and results, in order to test the front end functionality without testing the backend. 
 
 # Errors/Bugs
-    Currently cant handle searching for values with spaces. ie, you can have the search value "sophia" but not "sophia melanie". We think this logic is better handled in the backend.
+Currently cant handle searching for values with spaces. ie, you can have the search value "sophia" but not "sophia melanie". We think this logic is better handled in the backend.
 
 # Tests
 - Check to see there is a login button upon page loading.
@@ -52,11 +52,9 @@
 
 
 # How to
-    To use the program, open the Mock web app in the browser and click the Login button. The application will begin in brief mode, meaning that only the output will be present on the screen. In the box that states "Enter a command", first enter the command load_file <file to load>. If the file is found and loaded, a message will appear on screen stating "loaded successfully". To view the data, enter view. To search, either by column id or column name, enter the command search <column> <value>. To change to verbose mode, enter mode. Verbose mode will show all commands and corresponding outputs. To sign out of the application, click the sign out button. 
+To use the program, open the Mock web app in the browser and click the Login button. The application will begin in brief mode, meaning that only the output will be present on the screen. In the box that states "Enter a command", first enter the command load_file <file to load>. If the file is found and loaded, a message will appear on screen stating "loaded successfully". To view the data, enter view. To search, either by column id or column name, enter the command search <column> <value>. To change to verbose mode, enter mode. Verbose mode will show all commands and corresponding outputs. To sign out of the application, click the sign out button. 
 
 # Collaboration
-*(state all of your sources of collaboration past your project partner. Please refer to the course's collaboration policy for any further questions.)*
-
 
 for splitting / parsing command input 
 https://www.tutorialspoint.com/typescript/typescript_string_split.htm
