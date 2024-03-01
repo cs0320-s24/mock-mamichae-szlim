@@ -3,7 +3,7 @@
 # Project Details
 Project name: Mock
 Sophia Lim (szlim), Melanie Michael (mamichae)
-Hours spent: 12? idk
+Hours spent: 14
 Repo link: https://github.com/cs0320-s24/mock-mamichae-szlim
 
 # Design Choices
