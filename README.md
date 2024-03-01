@@ -57,21 +57,10 @@ To use the program, open the Mock web app in the browser and click the Login but
 To add a new command, create a new JSX component (tsx) file that will return what is to be displayed. Create and add the new command to commands map by navigating to the component REPLFunction and adding the new command (the JSX component) to the commandsObject. The key should be the name of the command, and the corresponding value should represent the expected output. To run the new command, in the command-line interface, type the name of the new command (what was specficied as the key value), and any additional arguments needed. 
 
 # Collaboration
-*(state all of your sources of collaboration past your project partner. Please refer to the course's collaboration policy for any further questions.)*
-    for splitting / parsing command input 
-    https://www.tutorialspoint.com/typescript/typescript_string_split.htm
 
-    for asserting non-null
-    https://www.geeksforgeeks.org/typescript-non-null-assertion-operator-postfix-type/#:~:text=TypeScript%20non%2Dnull%20assertion%20operator%20(!)%20is%20used%20to%20assert,time%20null%20and%20undefined%20checks.
-
-    slicing array
-    https://refine.dev/blog/javascript-slice/
-
-    useEffect
-    https://legacy.reactjs.org/docs/hooks-effect.html 
-
-    testing tables in playwright
-    https://testerops.com/playwright-table-handling-1/
-
-    promise all for testing tables in playwright 
-    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+- for splitting / parsing command input https://www.tutorialspoint.com/typescript/typescript_string_split.htm
+- for asserting non-null https://www.geeksforgeeks.org/typescript-non-null-assertion-operator-postfix-type/#:~:text=TypeScript%20non%2Dnull%20assertion%20operator%20(!)%20is%20used%20to%20assert,time%20null%20and%20undefined%20checks.
+- slicing array https://refine.dev/blog/javascript-slice/
+- useEffect https://legacy.reactjs.org/docs/hooks-effect.html 
+- testing tables in playwright https://testerops.com/playwright-table-handling-1/
+- promise all for testing tables in playwright https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
