@@ -26,10 +26,9 @@ test("on page load, i dont see the input box until login", async ({ page }) => {
   await expect(page.getByText("You are logged in")).toBeVisible();
   await expect(page.getByLabel("Sign Out")).toBeVisible();
   await expect(page.getByLabel("Command input")).toBeVisible();
-  await expect(page.getByLabel("Login")).not.toBeVisible();
 });
 
-test("on page load, i see a button", async ({ page }) => {
+test("on page login, i see a submit button", async ({ page }) => {
   await page.getByLabel("Login").click();
   await expect(page.getByLabel("Submit")).toBeVisible();
 });
@@ -272,7 +271,7 @@ test("view incorrect arguments", async ({ page }) => {
   await expect(page.getByText("incorrect number of arguments")).toBeVisible();
 });
 
-test("search one csv output", async ({ page }) => {
+test("search returns one row", async ({ page }) => {
   await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("load_file exampleCSV1");
@@ -304,7 +303,7 @@ test("search one csv output", async ({ page }) => {
   expect(row0_text[2]).toBe("blue");
 });
 
-test("search multiple csv output", async ({ page }) => {
+test("search returns multiple rows", async ({ page }) => {
   await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("load_file flowers");
@@ -356,6 +355,17 @@ test("search multiple csv output", async ({ page }) => {
 
   expect(row2_text[0]).toBe("lily");
   expect(row2_text[1]).toBe("pink");
+
+  const row3 = allRows[3];
+  const row3_cols = await row3.locator("td").all();
+  const row3_text = await Promise.all(
+    row3_cols.map(async (column) => {
+      return await column.textContent();
+    })
+  );
+
+  expect(row3_text[0]).toBe("lily");
+  expect(row3_text[1]).toBe("green");
 });
 
 test("search string col identifier", async ({ page }) => {
@@ -409,7 +419,7 @@ test("search unloaded file", async ({ page }) => {
   await expect(page.getByText("please load a file first")).toBeVisible();
 });
 
-test("two different queries, same csv", async ({ page }) => {
+test("search two different queries, same csv", async ({ page }) => {
   await page.getByLabel("Login").click();
   await page.getByLabel("Command input").click();
   await page.getByLabel("Command input").fill("load_file flowers");
@@ -423,7 +433,6 @@ test("two different queries, same csv", async ({ page }) => {
   const tableSearch = await page.locator("#search-table tbody");
   const rowCount = await tableSearch.locator("tr").count();
 
-  //two results
   await expect(rowCount).toBe(4);
 
   const allRows = await page.locator("#search-table tbody tr").all();

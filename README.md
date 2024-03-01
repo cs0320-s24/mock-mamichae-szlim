@@ -15,10 +15,41 @@
     The files MockedCSVs and MockedSearchResults contain mocked data for viewing and mocked search commands and results, in order to test the front end functionality without testing the backend. 
 
 # Errors/Bugs
-    like none???
     Currently cant handle searching for values with spaces. ie, you can have the search value "sophia" but not "sophia melanie". We think this logic is better handled in the backend.
 
 # Tests
+- Check to see there is a login button upon page loading.
+- Check to see they can't see the command input box until after they are logged in.
+- Check a submit button is visible after logging in
+- Can sign in and sign out multiple times
+- Check functionality of "mode" command and ensure both brief and verbose modes display appropriate output.
+- Checks ouput when you click submit with no command input
+- Checks ouput when you click submit with unknown command input
+- Check successful loading of a file
+- Check "load_file" command with not enough arguments
+- Check "load_file" command with too many arguments
+- Check output when you load a file not found
+- Check output when loading a malformed CSV
+- Check output when loading an empty CSV
+- Check successful "view" 
+- Check view in both modes
+- Check output when trying to view an unloaded csv
+- Check "view" command with incorrect arguments
+- Check search command with one row output
+- Check search command with multiple row outputs
+- Check search using a string as the column identifier
+- Check search using an index column identifier
+- Check search when no results are found
+- Check trying to search an unloaded file
+- Check searching two different queries on the same csv
+- Check viewing and searching on a csv with one column
+- Check loading, viewing, and searching all together
+- Check loading and viewing multiple different datasets in the same sequence
+- Check loading and searching multiple different datasets in the same sequence
+- Check view command in both modes
+- Check search commandin both modes
+
+
 
 # How to
     To use the program, open the Mock web app in the browser and click the Login button. The application will begin in brief mode, meaning that only the output will be present on the screen. In the box that states "Enter a command", first enter the command load_file <file to load>. If the file is found and loaded, a message will appear on screen stating "loaded successfully". To view the data, enter view. To search, either by column id or column name, enter the command search <column> <value>. To change to verbose mode, enter mode. Verbose mode will show all commands and corresponding outputs. To sign out of the application, click the sign out button. 
