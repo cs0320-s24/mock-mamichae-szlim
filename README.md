@@ -53,21 +53,9 @@ Currently cant handle searching for values with spaces. ie, you can have the sea
 
 # How to
 To use the program, open the Mock web app in the browser and click the Login button. The application will begin in brief mode, meaning that only the output will be present on the screen. In the box that states "Enter a command", first enter the command `load_file <file to load>`. If the file is found and loaded, a message will appear on screen stating "loaded successfully". To view the data, enter `view`. To search, either by column id or column name, enter the command `search <column> <value>`. To change to between modes, enter `mode`. Verbose mode will show all commands and corresponding outputs. To sign out of the application, click the sign out button. 
-
-<<<<<<< HEAD
-# Collaboration
-*(state all of your sources of collaboration past your project partner. Please refer to the course's collaboration policy for any further questions.)*
-    for splitting / parsing command input 
-    https://www.tutorialspoint.com/typescript/typescript_string_split.htm
-
-    for asserting non-null
-    https://www.geeksforgeeks.org/typescript-non-null-assertion-operator-postfix-type/#:~:text=TypeScript%20non%2Dnull%20assertion%20operator%20(!)%20is%20used%20to%20assert,time%20null%20and%20undefined%20checks.
-=======
 To add a new command, create a new JSX component (tsx) file that will return what is to be displayed. Create and add the new command to commands map by navigating to the component REPLFunction and adding the new command (the JSX component) to the commandsObject. The key should be the name of the command, and the corresponding value should represent the expected output. To run the new command, in the command-line interface, type the name of the new command (what was specficied as the key value), and any additional arguments needed. 
 
 # Collaboration
->>>>>>> 5299eb0de7fe37d5e11264d9304bc8ad43292965
-
 - for splitting / parsing command input https://www.tutorialspoint.com/typescript/typescript_string_split.htm
 - for asserting non-null https://www.geeksforgeeks.org/typescript-non-null-assertion-operator-postfix-type/#:~:text=TypeScript%20non%2Dnull%20assertion%20operator%20(!)%20is%20used%20to%20assert,time%20null%20and%20undefined%20checks.
 - slicing array https://refine.dev/blog/javascript-slice/
