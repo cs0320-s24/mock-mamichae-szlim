@@ -1,0 +1,19 @@
+.search-results {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    border: 2px solid hotpink;
+    text-align: center;
+}
+
+.search-results table {
+    border-collapse: collapse; 
+    width: auto; 
+}
+
+.search-results td {
+    padding: 10px; 
+    text-align: center; 
+    border: 1px solid pink;
+}
+

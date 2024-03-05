@@ -1,0 +1,19 @@
+.view-component {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    border: 2px solid hotpink;
+    text-align: center;
+}
+
+.view-component table {
+    border-collapse: collapse; 
+    width: auto; 
+}
+
+.view-component td {
+    padding: 10px; 
+    text-align: center; 
+    border: 1px solid pink;
+}
+
